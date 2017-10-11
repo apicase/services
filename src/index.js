@@ -5,7 +5,7 @@ import { merge, assocPath } from 'ramda'
 export default (Apicase: Object): void => {
 
   const createService: Types.createService = ({ name, children = [], ...service }, path = []) => merge(
-    assocPath([...path, name], service, {}),
+    assocPath([...path, name], Apicase.of(service), {}),
     ...children.map(s => createService(s, [...path, name]))
   )
 
