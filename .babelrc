@@ -18,7 +18,6 @@
     "stage-2"
   ],
   "plugins": [
-    "ramda",
     "transform-async-to-generator"
   ]
 }

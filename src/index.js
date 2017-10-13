@@ -1,19 +1,25 @@
 // @flow
 import * as Types from './types'
-import { merge, assocPath } from 'ramda'
 
-export default (Apicase: Object): void => {
+export default (Apicase: Types.Apicase): void => {
 
-  const createService: Types.createService = ({ name, children = [], ...service }, path = []) => merge(
-    assocPath([...path, name], Apicase.of(service), {}),
-    ...children.map(s => createService(s, [...path, name]))
-  )
+  const createContainer: Types.createContainerType = ({ name, children = [], ...service}) => {
+    let root = Apicase.of(service)
+    children.forEach((s: Types.config) => {
+      root = Object.assign({}, root, createContainer(s))
+    })
+    return { [name]: root }
+  }
+  const containersReducer: Types.reduceContainersType = (accum, service) =>
+    Object.assign(accum, service)
 
-  const container: Types.apicaseContainer = config =>
-    Array.isArray(config)
-      ? merge(...config.map(s => createService(s)))
-      : createService(config)
+  const createContainerFromAny: Types.createContainerFromAnyType = config =>
+    !Array.isArray(config)
+      ? createContainer(config)
+      : config
+        .map(s => createContainer(s))
+        .reduce(containersReducer)
 
-  Apicase.container = container
+  Apicase.container = createContainerFromAny
 
 }
