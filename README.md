@@ -16,7 +16,7 @@ It's a small plugin for [apicase-core](https://github.com/apicase/apicase-core) 
 import Apicase from 'apicase-core'
 import ApicaseServices from 'apicase-services'
 
-Apicase.use(ApicaseServices)
+Apicase.install(ApicaseServices)
 ```
 
 ### 3. Be happy :)
