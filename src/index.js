@@ -26,7 +26,11 @@ export default (Apicase: Types.Apicase): void => {
     let root = Apicase.of(service)
     children.forEach((s: Types.config) => {
       const obj = { ...s }
-      if (obj.url && !obj.url.startsWith('/') && typeof service.url === 'string') {
+      if (
+        typeof obj.url === 'string' &&
+        !obj.url.startsWith('/') &&
+        typeof service.url === 'string'
+      ) {
         obj.url = `${service.url}/${obj.url}`
       }
       root = safeAssign(root, createContainer(obj))
