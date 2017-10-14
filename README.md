@@ -66,5 +66,23 @@ const api = {
 }
 ```
 
+### Inheritance
+You can also use `Apicase.container` after `Apicase.of`. All mixins will be passed to all services
+
+```javascript
+const uploader = Apicase.of({ adapter: 'xhr', method: 'POST' })
+
+const uploaders = uploader.container([
+  { name: 'avatar',      url: '/my/avatar' },
+  { name: 'postPicture', url: '/post/:id/picture' }
+])
+
+// Equal with
+const uploaders = {
+  avatar: Apicase.of({ adapter: 'xhr', url: '/my/avatar', method: 'POST' }),
+  postPicture: Apicase.of({ adapter: 'xhr', url: '/post/:id/picture', method: 'POST' })
+}
+```
+
 ## License
 MIT © [Anton Kosykh](https://github.com/kelin2025)
