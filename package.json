@@ -1,6 +1,6 @@
 {
   "name": "apicase-services",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Simplify create Apicase services by JSON declaration",
   "author": "Anton Kosykh",
   "main": "dist/index.js",
@@ -55,6 +55,7 @@
     "karma-webpack": "^2.0.4",
     "open-browser-webpack-plugin": "0.0.5",
     "requirejs": "^2.3.5",
+    "uglify-es-webpack-plugin": "^0.10.0",
     "webpack": "^3.5.6",
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.7.1"

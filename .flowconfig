@@ -2,3 +2,4 @@
 .*/node_modules/.*
 [libs]
 flow-typed
+node_modules/apicase-core/flow-typed
