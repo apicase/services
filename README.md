@@ -32,19 +32,19 @@ const api = Apicase.container({
   name: 'posts',
   url: '/api/posts',
   children: [
-    { name: 'getPosts', url: '' },
-    { name: 'getById',  url: ':id' },
+    { name: 'getPosts', url: '',            method: 'GET' },
+    { name: 'getById',  url: ':id',         method: 'GET' },
     { name: 'comment',  url: ':id/comment', method: 'POST' },
-    { name: 'create',   url: '', method: 'POST' }
+    { name: 'create',   url: '',            method: 'POST' }
   ]
 })
 
 // Equal with
 const api = {
   posts: {
-    ...Apicase.of({ url: '/api/posts' }),
-    getPosts: Apicase.of({ url: '/api/posts' }),
-    getById: Apicase.of({ url: '/api/posts/:id' }),
+    ...Apicase.of({ url: '/api/posts', method: 'GET' }),
+    getPosts: Apicase.of({ url: '/api/posts', method: 'GET' }),
+    getById: Apicase.of({ url: '/api/posts/:id', method: 'GET' }),
     comment: Apicase.of({ url: '/api/posts/:id/comment', method: 'POST' })
     create: Apicase.of({ url: '/api/posts', method: 'POST' }),
   }
