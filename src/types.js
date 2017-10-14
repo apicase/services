@@ -1,4 +1,5 @@
 // @flow
+export type safeAssign = (to: Object, from: Object) => Object
 
 export type Hook = (ctx: Object, next: Function) => void
 
