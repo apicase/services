@@ -30,12 +30,15 @@ export type config = { name: string, children?: config[], [option: string]: any 
 
 export type container = { [name: string]: Apicase }
 
-export type createContainerType = (config: config) => container
+export type createContainerType = (config: config, parent: config | void) => container
 
 export type reduceContainersType = (accum: container, service: container) => container
 
 export type createContainerFromAnyType = (config: config | config[]) => container
 
+export type prepareCallback = (child: config, parent: config | void) => config
+
+export type needStack = (child: config, parent: config | void) => boolean
 
 export type Adapter<Options> = (query: {
   options: Options,
@@ -43,6 +46,12 @@ export type Adapter<Options> = (query: {
   fail: (reason: mixed) => void,
   another: (hookType: string, data: mixed, reject?: boolean) => void
 }) => void
+
+export type PluginOptions = {
+  prepare?: (child: Config, parent: Config) => Config
+}
+
+export type Plugin<T> = (Apicase: Apicase, options: T) => void
 
 export type Apicase = {
   base: {
@@ -59,8 +68,8 @@ export type Apicase = {
   call: (options: AllOptions) => Promise<mixed>,
   all: (options: AllOptions[]) => Promise<mixed>,
   of: (options: AllOptions) => Apicase,
-  install: (installer: Plugin) => void,
-  extend: (installer: Plugin) => Apicase,
+  install: (installer: Plugin<any>) => void,
+  extend: (installer: Plugin<any>) => Apicase,
   on: (event: EventName, callback: (...args: any[]) => void) => void,
   container: (config: config | config[]) => container,
   // For plugins
