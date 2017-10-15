@@ -54,14 +54,6 @@ const ApicaseServices: Types.Plugin<Types.PluginOptions> = (Apicase, { prepare =
         .map(s => createContainer(s))
         .reduce(containersReducer)
 
-  console.log(createContainerFromAny({
-    name: 'root',
-    url: 'test',
-    children: [
-      { name: 'hello', url: 'hello' }
-    ]
-  }))
-
   Apicase.container = createContainerFromAny
 
 }
