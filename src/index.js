@@ -9,13 +9,13 @@ const needStack: Types.needStack = (child, parent) =>
   !child.url.startsWith('/')
 
 // Stack url from with parent services
-const stackUrl: Types.prepareCallback = (child, parent) =>
-  typeof parent !== 'object'
-    ? child
-    : {
-      ...child,
-      url: needStack(child, parent) ? `${parent.url}/${child.url}` : child.url
-    }
+const stackUrl: Types.prepareCallback = (child, parent) => {
+  const url =
+    typeof parent === 'object' && needStack(child, parent)
+      ? `${parent.url}/${child.url}`
+      : child.url
+  return { ...child, url }
+}
 
 // Deny using service names that can cause unexpected behaviour
 const safeAssign: Types.safeAssign = (to, from) => {
@@ -41,7 +41,7 @@ const ApicaseServices: Types.Plugin<Types.PluginOptions> = (Apicase, { prepare =
     const config = [stackUrl, ...prepare].reduce((c, callback) => callback(c, parent), { name, children, ...service })
     let root = Apicase.of(config)
     children.forEach((s: Types.config) => {
-      root = safeAssign(root, createContainer(s, { name, children, ...config }))
+      root = safeAssign(root, createContainer(s, config))
     })
     return { [name]: root }
   }
