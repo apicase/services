@@ -107,10 +107,11 @@ const services = {
   ]
 }
 
-const addSlash = child =>
-  child.children.length || child.url.endsWith('/')
-    ? child
-    : { ...child, url: child.url + '/' }
+const addSlash = child => ({ 
+  ...service, 
+  url: `${service.url}/`.replace('//', '/') 
+})
+
 
 const options = {
   prepare: [addSlash]
