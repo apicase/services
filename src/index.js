@@ -42,7 +42,7 @@ const ApicaseServices: Types.Plugin<Types.PluginOptions> = (Apicase, { prepare =
     const { name, children = [], ...service } = config
     let root = this.of(service)
     children.forEach((s: Types.config) => {
-      root = safeAssign(root, createContainer(s, config))
+      root = safeAssign(root, createContainer.bind(this)(s, config))
     })
     return { [name]: root }
   }
