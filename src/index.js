@@ -37,24 +37,32 @@ const ApicaseServices: Types.Plugin<Types.PluginOptions> = (Apicase, { prepare =
     safeAssign(accum, service)
 
   // Create container from object
-  const createContainer: Types.createContainerType = ({ name, children = [], ...service }, parent = undefined) => {
-    const config = [stackUrl, ...prepare].reduce((c, callback) => callback(c, parent), { name, children, ...service })
-    let root = Apicase.of(config)
+  const createContainer: Types.createContainerType = function (current, parent = undefined) {
+    const config = [stackUrl, ...prepare].reduce((c, callback) => callback(c, parent), current)
+    const { name, children = [], ...service } = config
+    let root = this.of(service)
     children.forEach((s: Types.config) => {
       root = safeAssign(root, createContainer(s, config))
     })
     return { [name]: root }
   }
 
-  // Like createContainer, but also accepts array of services
-  const createContainerFromAny: Types.createContainerFromAnyType = config =>
-    !Array.isArray(config)
-      ? createContainer(config)
-      : config
-        .map(s => createContainer(s))
-        .reduce(containersReducer)
+  // // Like createContainer, but also accepts array of services
+  // const createContainerFromAny: Types.createContainerFromAnyType = function (config) {
+  //   return !Array.isArray(config)
+  //     ? createContainer.bind(this)(config)
+  //     : config
+  //       .map(s => createContainer.bind(this)(s))
+  //       .reduce(containersReducer)
+  // }
 
-  Apicase.container = createContainerFromAny
+  Apicase.container = function (config) {
+    return !Array.isArray(config)
+      ? createContainer.bind(this)(config)
+      : config
+        .map(s => createContainer.bind(this)(s))
+        .reduce(containersReducer)
+  }
 
 }
 

@@ -52,7 +52,6 @@ rules:
     no-floating-decimal: "error"
     no-global-assign: "error"
     no-implied-eval: "error"
-    no-invalid-this: "error"
     no-iterator: "error"
     no-label-var: "error"
     no-labels: "error"

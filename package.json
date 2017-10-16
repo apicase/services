@@ -1,6 +1,6 @@
 {
   "name": "apicase-services",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Simplify create Apicase services by JSON declaration",
   "author": "Anton Kosykh",
   "main": "dist/index.js",
@@ -61,6 +61,7 @@
     "webpack-dev-server": "^2.7.1"
   },
   "dependencies": {
+    "apicase-core": "^0.2.2",
     "ramda": "^0.24.1"
   }
 }
