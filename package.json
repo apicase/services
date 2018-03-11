@@ -1,0 +1,45 @@
+{
+  "name": "@apicase/services",
+  "version": "0.3.0-draft.1",
+  "description": "Better experience with apicase services",
+  "main": "index.cjs.js",
+  "module": "index.js",
+  "repository": "https://github.com/apicase/services",
+  "author": "Kelin2025",
+  "license": "MIT",
+  "config": {
+    "ghooks": {
+      "pre-commit": "npm run check"
+    }
+  },
+  "scripts": {
+    "lint": "eslint --fix *.js",
+    "test": "jest",
+    "check": "npm run lint && npm run test",
+    "build": "rollup -c",
+    "prepublish": "npm run build && npm run check"
+  },
+  "dependencies": {
+    "@apicase/core": "^0.7.0-beta.15"
+  },
+  "devDependencies": {
+    "@apicase/adapter-fetch": "^0.3.2",
+    "babel-core": "^6.26.0",
+    "babel-jest": "^22.4.1",
+    "babel-plugin-nanoutils": "^0.1.1",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.16.0",
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "ghooks": "^2.0.2",
+    "jest": "^22.1.4",
+    "regenerator-runtime": "^0.11.1",
+    "rollup": "^0.56.5",
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-commonjs": "8.3.0",
+    "rollup-plugin-node-resolve": "^3.2.0"
+  }
+}
