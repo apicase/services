@@ -1,9 +1,11 @@
 {
-  "plugins": [["nanoutils", { "cjs": true }]],
-  "env": {
-    "test": {
-      "presets": ["env"],
-      "plugins": [["nanoutils", { "cjs": true }]]
-    }
-  }
+  "plugins": [
+    [
+      "nanoutils",
+      {
+        "cjs": true
+      }
+    ],
+    "transform-es2015-modules-simple-commonjs"
+  ]
 }
