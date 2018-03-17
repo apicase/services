@@ -39,3 +39,8 @@ export const rest = (name, payload = defaultRest) =>
     : Object.entries(payload).map(item =>
       Object.assign(generateRestItem[item[0]](name), item[1])
     )
+
+export const wrappedRest = (name, payload = defaultRest) => ({
+  url: name,
+  children: rest(name, payload)
+})
