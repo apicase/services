@@ -88,7 +88,9 @@ new ApiTree(Root, [
 `wrappedRest` helper is similar to `rest` but also wraps it into url with name:
 
 ```javascript
-new ServicesTree(Root, [...rest('posts'), ...rest('profile')])
+import { ApiTree, wrappedRest } from '@apicase/services'
+
+new ApiTree(Root, [wrappedRest('posts'), wrappedRest('profile')])
 ```
 
 ## License
