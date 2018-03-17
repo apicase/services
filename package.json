@@ -1,6 +1,6 @@
 {
   "name": "@apicase/services",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Better experience with apicase services",
   "main": "index.cjs.js",
   "module": "index.js",
