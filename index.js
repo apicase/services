@@ -3,7 +3,7 @@ import { ApiService } from '@apicase/core'
 
 const getOpts = omit(['name', 'on', 'children'])
 
-const createTree = function(adapter, items, parent) {
+export const ApiTree = function(adapter, items, parent) {
   this.items = items.reduce((res, item) => {
     const next = parent
       ? parent.extend(getOpts(item))
@@ -14,16 +14,12 @@ const createTree = function(adapter, items, parent) {
     }
     Object.assign(res, { [item.name]: next })
     if (item.children) {
-      Object.assign(res, createTree(adapter, item.children, next))
+      Object.assign(res, ApiTree(adapter, item.children, next))
     }
     return res
   }, {})
 
   return name => this.items[name]
-}
-
-export const ApiTree = (adapter, items) => {
-  return createTree(adapter, items)
 }
 
 const generateRestItem = {
