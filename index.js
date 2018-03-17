@@ -3,18 +3,19 @@ import { ApiService } from '@apicase/core'
 
 const getOpts = omit(['name', 'on', 'children'])
 
-export const ApiTree = function(adapter, items, parent) {
+export const ApiTree = function(base, items) {
   this.items = items.reduce((res, item) => {
-    const next = parent
-      ? parent.extend(getOpts(item))
-      : new ApiService(adapter, getOpts(item))
+    const next =
+      base instanceof ApiService
+        ? parent.extend(getOpts(item))
+        : new ApiService(base, getOpts(item))
 
     if (item.on) {
       Object.entries(item.on).forEach(evt => next.on(evt[0], evt[1]))
     }
     Object.assign(res, { [item.name]: next })
     if (item.children) {
-      Object.assign(res, ApiTree(adapter, item.children, next))
+      Object.assign(res, ApiTree(next, item.children))
     }
     return res
   }, {})
