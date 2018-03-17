@@ -3,11 +3,12 @@ import { ApiService } from '@apicase/core'
 
 const getOpts = omit(['name', 'on', 'children'])
 
-const createTree = (adapter, items, parent) => {
-  return items.reduce((res, item) => {
+const createTree = function(adapter, items, parent) {
+  this.items = items.reduce((res, item) => {
     const next = parent
       ? parent.extend(getOpts(item))
       : new ApiService(adapter, getOpts(item))
+
     if (item.on) {
       Object.entries(item.on).forEach(evt => next.on(evt[0], evt[1]))
     }
@@ -17,6 +18,8 @@ const createTree = (adapter, items, parent) => {
     }
     return res
   }, {})
+
+  return name => this.items[name]
 }
 
 export const ApiTree = (adapter, items) => {
@@ -24,14 +27,16 @@ export const ApiTree = (adapter, items) => {
 }
 
 const generateRestItem = {
-  getAll: name => ({ name, url: '', method: 'GET' }),
-  create: name => ({ name, url: '', method: 'POST' }),
-  getOne: name => ({ name, url: ':id', method: 'GET' }),
-  updOne: name => ({ name, url: ':id', method: 'UPDATE' }),
-  rmvOne: name => ({ name, url: ':id', method: 'DELETE' })
+  getAll: name => ({ name: `${name}GetAll`, url: '', method: 'GET' }),
+  create: name => ({ name: `${name}Create`, url: '', method: 'POST' }),
+  getOne: name => ({ name: `${name}GetOne`, url: ':id', method: 'GET' }),
+  updOne: name => ({ name: `${name}UpdOne`, url: ':id', method: 'UPDATE' }),
+  rmvOne: name => ({ name: `${name}RmvOne`, url: ':id', method: 'DELETE' })
 }
 
-export const rest = (name, payload) =>
+const defaultRest = Object.keys(generateRestItem)
+
+export const rest = (name, payload = defaultRest) =>
   Array.isArray(payload)
     ? payload.map(key => generateRestItem[key](name))
     : Object.entries(payload).map(item =>
