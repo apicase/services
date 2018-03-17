@@ -22,3 +22,18 @@ const createTree = (adapter, items, parent) => {
 export const ApiTree = (adapter, items) => {
   return createTree(adapter, items)
 }
+
+const generateRestItem = {
+  getAll: name => ({ name, url: '', method: 'GET' }),
+  create: name => ({ name, url: '', method: 'POST' }),
+  getOne: name => ({ name, url: ':id', method: 'GET' }),
+  updOne: name => ({ name, url: ':id', method: 'UPDATE' }),
+  rmvOne: name => ({ name, url: ':id', method: 'DELETE' })
+}
+
+export const rest = (name, payload) =>
+  Array.isArray(payload)
+    ? payload.map(key => generateRestItem[key](name))
+    : Object.entries(payload).map(item =>
+      Object.assign(generateRestItem[item[0]](name), item[1])
+    )
