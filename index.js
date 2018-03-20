@@ -5,10 +5,7 @@ const getOpts = omit(['name', 'on', 'children'])
 
 export const ApiTree = function(base, items) {
   this.items = items.reduce((res, item) => {
-    const next =
-      base instanceof ApiService
-        ? parent.extend(getOpts(item))
-        : new ApiService(base, getOpts(item))
+    const next = base instanceof ApiService ? base.extend(getOpts(item)) : new ApiService(base, getOpts(item))
 
     if (item.on) {
       Object.entries(item.on).forEach(evt => next.on(evt[0], evt[1]))
@@ -34,11 +31,7 @@ const generateRestItem = {
 const defaultRest = Object.keys(generateRestItem)
 
 export const rest = (name, payload = defaultRest) =>
-  Array.isArray(payload)
-    ? payload.map(key => generateRestItem[key](name))
-    : Object.entries(payload).map(item =>
-      Object.assign(generateRestItem[item[0]](name), item[1])
-    )
+  Array.isArray(payload) ? payload.map(key => generateRestItem[key](name)) : Object.entries(payload).map(item => Object.assign(generateRestItem[item[0]](name), item[1]))
 
 export const wrappedRest = (name, payload = defaultRest) => ({
   url: name,
