@@ -15,7 +15,7 @@ const createTree = (base, items) =>
     }
     Object.assign(res, { [item.name]: next })
     if (item.children) {
-      Object.assign(res, ApiTree(next, item.children))
+      Object.assign(res, createTree(next, item.children))
     }
     return res
   }, {})
