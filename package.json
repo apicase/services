@@ -19,7 +19,7 @@
     "build": "babel index.js --out-file index.cjs.js",
     "prepublish": "npm run build && npm run check"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@apicase/core": "^0.8.0"
   },
   "devDependencies": {
