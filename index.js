@@ -3,8 +3,8 @@ import { ApiService } from '@apicase/core'
 
 const getOpts = omit(['name', 'on', 'children'])
 
-export const ApiTree = function(base, items) {
-  const services = items.reduce((res, item) => {
+const createTree = (base, items) =>
+  items.reduce((res, item) => {
     const next =
       base instanceof ApiService
         ? base.extend(getOpts(item))
@@ -19,6 +19,9 @@ export const ApiTree = function(base, items) {
     }
     return res
   }, {})
+
+export const ApiTree = function(base, items) {
+  const services = createTree(base, items)
 
   return name => services[name]
 }
