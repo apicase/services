@@ -1,7 +1,7 @@
-import omit from "nanoutils/cjs/omit"
-import { ApiService } from "@apicase/core"
+import omit from 'nanoutils/cjs/omit'
+import { ApiService } from '@apicase/core'
 
-const getOpts = omit(["name", "on", "children"])
+const getOpts = omit(['name', 'on', 'children'])
 
 export const ApiTree = function(base, items) {
   const services = items.reduce((res, item) => {
@@ -24,11 +24,11 @@ export const ApiTree = function(base, items) {
 }
 
 const generateRestItem = {
-  getAll: name => ({ name: `${name}GetAll`, url: "", method: "GET" }),
-  create: name => ({ name: `${name}Create`, url: "", method: "POST" }),
-  getOne: name => ({ name: `${name}GetOne`, url: ":id", method: "GET" }),
-  updOne: name => ({ name: `${name}UpdOne`, url: ":id", method: "UPDATE" }),
-  rmvOne: name => ({ name: `${name}RmvOne`, url: ":id", method: "DELETE" })
+  getAll: name => ({ name: `${name}GetAll`, url: '', method: 'GET' }),
+  create: name => ({ name: `${name}Create`, url: '', method: 'POST' }),
+  getOne: name => ({ name: `${name}GetOne`, url: ':id', method: 'GET' }),
+  updOne: name => ({ name: `${name}UpdOne`, url: ':id', method: 'UPDATE' }),
+  rmvOne: name => ({ name: `${name}RmvOne`, url: ':id', method: 'DELETE' })
 }
 
 const defaultRest = Object.keys(generateRestItem)
@@ -37,8 +37,8 @@ export const rest = (name, payload = defaultRest) =>
   Array.isArray(payload)
     ? payload.map(key => generateRestItem[key](name))
     : Object.entries(payload).map(item =>
-        Object.assign(generateRestItem[item[0]](name), item[1])
-      )
+      Object.assign(generateRestItem[item[0]](name), item[1])
+    )
 
 export const wrappedRest = (name, payload = defaultRest) => ({
   url: name,
