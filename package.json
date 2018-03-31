@@ -23,7 +23,7 @@
     "nanoutils": "^0.0.17"
   },
   "peerDependencies": {
-    "@apicase/core": "^0.8.0"
+    "@apicase/core": ">=0.8.0"
   },
   "devDependencies": {
     "@apicase/adapter-fetch": "^0.3.2",
