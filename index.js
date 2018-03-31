@@ -20,10 +20,20 @@ const createTree = (base, items) =>
     return res
   }, {})
 
+const getFrom = services => {
+  const get = (name, payload) =>
+    payload !== undefined ? services[name].doRequest(payload) : services[name]
+
+  get.extend = by => {
+    return getFrom(services.map(service => service.extend(by)))
+  }
+
+  return get
+}
+
 export const ApiTree = function(base, items) {
   const services = createTree(base, items)
-
-  return name => services[name]
+  return getFrom(services)
 }
 
 const generateRestItem = {
