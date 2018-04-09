@@ -50,6 +50,12 @@ const api = new ApiTree(Root, [
 ])
 ```
 
+## Shorter requests
+
+```javascript
+api('someService', payload) === api('someService').doRequest(payload)
+```
+
 ## `rest` and `wrappedRest` helpers
 
 Helper to work with REST APIs just automatically generates urls, methods and names
