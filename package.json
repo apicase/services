@@ -1,7 +1,7 @@
 {
   "name": "@apicase/services",
   "version": "0.7.0",
-  "description": "Better experience with apicase services",
+  "description": "Powerful API layer based on `@apicase/core`",
   "main": "index.cjs.js",
   "module": "index.es.js",
   "repository": "https://github.com/apicase/services",
@@ -16,7 +16,8 @@
     "lint": "eslint --fix index.js",
     "test": "jest",
     "check": "npm run lint && npm run test",
-    "build": "BABEL_ENV=cjs babel index.js --out-file index.cjs.js && BABEL_ENV=es babel index.js --out-file index.es.js",
+    "build":
+      "BABEL_ENV=cjs babel index.js --out-file index.cjs.js && BABEL_ENV=es babel index.js --out-file index.es.js",
     "prepublish": "npm run build && npm run check"
   },
   "dependencies": {
