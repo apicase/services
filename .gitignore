@@ -65,3 +65,4 @@ typings/
 
 # Build
 index.cjs.js
+index.es.js
