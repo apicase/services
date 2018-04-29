@@ -16,15 +16,13 @@
     "lint": "eslint --fix index.js",
     "test": "jest",
     "check": "npm run lint && npm run test",
-    "build": "BABEL_ENV=cjs babel index.js --out-file index.cjs.js && BABEL_ENV=es babel index.js --out-file index.es.js",
+    "build":
+      "BABEL_ENV=cjs babel index.js --out-file index.cjs.js && BABEL_ENV=es babel index.js --out-file index.es.js",
     "prepublish": "npm run build && npm run check"
   },
   "dependencies": {
-    "@apicase/core": "^0.13.1",
+    "@apicase/core": "^0.14.2",
     "nanoutils": "^0.0.17"
-  },
-  "peerDependencies": {
-    "@apicase/core": ">=0.8.0"
   },
   "devDependencies": {
     "@apicase/adapter-fetch": "^0.3.2",
