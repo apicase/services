@@ -3,7 +3,7 @@
   "version": "0.6.1",
   "description": "Better experience with apicase services",
   "main": "index.cjs.js",
-  "module": "index.js",
+  "module": "index.es.js",
   "repository": "https://github.com/apicase/services",
   "author": "Kelin2025",
   "license": "MIT",
@@ -16,10 +16,12 @@
     "lint": "eslint --fix index.js",
     "test": "jest",
     "check": "npm run lint && npm run test",
-    "build": "babel index.js --out-file index.cjs.js",
+    "build":
+      "BABEL_ENV=cjs babel index.js --out-file index.cjs.js && BABEL_ENV=es babel index.js --out-file index.es.js",
     "prepublish": "npm run build && npm run check"
   },
   "dependencies": {
+    "@apicase/core": "^0.13.1",
     "nanoutils": "^0.0.17"
   },
   "peerDependencies": {
@@ -29,7 +31,7 @@
     "@apicase/adapter-fetch": "^0.3.2",
     "babel-cli": "^6.26.0",
     "babel-plugin-nanoutils": "^0.1.1",
-    "babel-plugin-transform-es2015-modules-simple-commonjs": "^0.3.0",
+    "babel-preset-env": "^1.6.1",
     "eslint": "^4.16.0",
     "eslint-config-standard": "^11.0.0-beta.0",
     "eslint-plugin-import": "^2.8.0",
