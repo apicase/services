@@ -1,5 +1,5 @@
 import EventBus from 'delightful-bus'
-import { omit, clone, equals } from 'nanoutils'
+import { omit, equals } from 'nanoutils'
 import { apicase, mergeOptions, normalizeOptions } from '@apicase/core'
 
 const getOpts = omit(['name', 'on', 'children'])
@@ -13,7 +13,6 @@ export function ApiService(options) {
   this._opts = (Array.isArray(options) ? options : [options]).map(opt =>
     normalizeOptions(opt)
   )
-  this._listeners = {}
   this.queue = []
 
   const bus = new EventBus()
@@ -45,7 +44,7 @@ export function ApiService(options) {
    */
   this.extend = function(newOptions) {
     const service = new ApiService(this._opts.concat(newOptions))
-    service._listeners = clone(this._listeners)
+    bus.sendTo(service)
     return service
   }
 
