@@ -1,3 +1,4 @@
+import EventBus from 'delightful-bus'
 import { omit, clone, equals } from 'nanoutils'
 import { apicase, mergeOptions, normalizeOptions } from '@apicase/core'
 
@@ -15,15 +16,15 @@ export function ApiService(options) {
   this._listeners = {}
   this.queue = []
 
+  const bus = new EventBus()
+
+  bus.injectObserverTo(this)
+
   const addCall = payload => {
-    const call = apicase(payload.adapter)(payload).on('finish', () => {
+    const call = apicase(payload.adapter)(payload).once('finish', () => {
       this.queue.splice(this.queue.indexOf(call), 1)
     })
-    Object.keys(this._listeners).forEach(evt => {
-      this._listeners[evt].forEach(cb => {
-        call.on(evt, cb)
-      })
-    })
+    bus.sendTo(call)
     this.queue.push(call)
     return call
   }
@@ -36,28 +37,6 @@ export function ApiService(options) {
    */
   this.use = function(callback) {
     return callback(this.extend())
-  }
-
-  /**
-   * Create global listeners
-   * @param {String} evt Event name
-   * @param {Function} callback Callback
-   */
-  this.on = function(evt, callback) {
-    this._listeners[evt] = (this._listeners[evt] || []).concat(callback)
-    return this
-  }
-
-  /**
-   * Remove global listeners
-   * @param {String} evt Event name
-   * @param {Function} callback Callback
-   */
-  this.off = function(evt, callback) {
-    if (!this._listeners[evt]) return this
-    const idx = this._listeners[evt].indexOf(callback)
-    if (idx > -1) this._listeners[evt].splice(idx, 1)
-    return this
   }
 
   /**
