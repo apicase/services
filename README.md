@@ -81,6 +81,25 @@ const api = new ApiTree(Root, [
 api("someService", payload) === api("someService").doRequest(payload)
 ```
 
+## ApiObjectTree helper
+
+Alternative way to avoid _string_ api (but there are no `children` option):
+
+```js
+import { ApiObjectTree } from '@apicase/services'
+
+const api = new ApiTree(BaseService, {
+  getAllPosts: { url: '' },
+  createPost:  { url: '',    method: 'POST' },
+  getOnePost:  { url: ':id', method: 'POST' },
+  updOnePost:  { url: ':id', method: 'PUT' },
+  rmvOnePost:  { url: ':id', method: 'DELETE' }
+})
+
+api.getAllPosts.doRequest()
+api.createPost.doRequest({ body })
+```
+
 ## `rest` and `wrappedRest` helpers
 
 Helper to work with REST APIs just automatically generates urls, methods and names
