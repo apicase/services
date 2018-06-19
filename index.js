@@ -96,6 +96,11 @@ export function ApiService(options) {
   }
 }
 
+/**
+ *
+ * @param {ApiService|{}} base Base service
+ * @param {Array} items Array of services
+ */
 const createTree = (base, items) =>
   items.reduce((res, item) => {
     const opts = getOpts(item)
@@ -126,9 +131,28 @@ const getFrom = services => {
   return get
 }
 
+/**
+ * Accepts array of services and returns a function where 1st arg is a service name and 2nd one is payload
+ */
 export const ApiTree = function(base, items) {
   const services = createTree(base, items)
   return getFrom(services)
+}
+
+const createObjectTree = (base, items) =>
+  Object.keys(items).reduce((res, key) => {
+    res[key] =
+      base instanceof ApiService
+        ? base.extend(items[key])
+        : new ApiService(items[key])
+    return res
+  }, {})
+
+/**
+ * Returns an object where key is a service name and values are services
+ */
+export const ApiObjectTree = function(base, items) {
+  return createObjectTree(base, items)
 }
 
 const generateRestItem = {
