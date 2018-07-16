@@ -1,8 +1,8 @@
-import EventBus from "delightful-bus"
-import { omit, equals } from "nanoutils"
-import { apicase, mergeOptions, normalizeOptions } from "@apicase/core"
+import EventBus from 'delightful-bus'
+import { omit, equals } from 'nanoutils'
+import { apicase, mergeOptions, normalizeOptions } from '@apicase/core'
 
-const getOpts = omit(["name", "on", "children"])
+const getOpts = omit(['name', 'on', 'children'])
 
 /**
  * Create a new service
@@ -19,8 +19,9 @@ export function ApiService(options) {
 
   bus.injectObserverTo(this)
 
-  const addCall = payload => {
-    const call = apicase(payload.adapter)(payload).once("finish", () => {
+  const addCall = callPayload => {
+    const payload = getOpts(callPayload)
+    const call = apicase(payload.adapter)(payload).once('finish', () => {
       this.queue.splice(this.queue.indexOf(call), 1)
     })
     bus.sendTo(call)
@@ -28,7 +29,7 @@ export function ApiService(options) {
     return call
   }
 
-  const getOpts = opts => mergeOptions(this._opts.concat(opts))
+  const getOpts = opts => mergeOptions(this._opts.concat(opts || {}))
 
   /**
    * Modifies service instance
@@ -53,7 +54,7 @@ export function ApiService(options) {
    * @param {Object} options Options object to merge with service options
    */
   this.doRequest = function(options) {
-    return addCall(getOpts(options || {}))
+    return addCall(options)
   }
 
   /**
@@ -66,13 +67,13 @@ export function ApiService(options) {
       hooks: {
         before: ({ payload, next }) => {
           this.queue[this.queue.length - 1]
-            .on("finish", () => next(payload))
-            .on("cancel", () => next(payload))
+            .on('finish', () => next(payload))
+            .on('cancel', () => next(payload))
         }
       }
     }
-    const mergedOpts = mergeOptions([withHook, options])
-    return addCall(getOpts(mergedOpts))
+    const mergedOpts = mergeOptions([withHook, options || {}])
+    return addCall(mergedOpts)
   }
 
   /**
@@ -81,7 +82,7 @@ export function ApiService(options) {
    * @param {Object} options Options object to merge with service options
    */
   this.doSingleRequest = function(options) {
-    return this.queue[0] ? this.queue[0] : this.doRequest(options)
+    return this.queue[0] ? this.queue[0] : addCall(options)
   }
 
   /**
@@ -156,11 +157,11 @@ export const ApiObjectTree = function(base, items) {
 }
 
 const generateRestItem = {
-  getAll: name => ({ name: `${name}GetAll`, url: "", method: "GET" }),
-  create: name => ({ name: `${name}Create`, url: "", method: "POST" }),
-  getOne: name => ({ name: `${name}GetOne`, url: ":id", method: "GET" }),
-  updOne: name => ({ name: `${name}UpdOne`, url: ":id", method: "UPDATE" }),
-  rmvOne: name => ({ name: `${name}RmvOne`, url: ":id", method: "DELETE" })
+  getAll: name => ({ name: `${name}GetAll`, url: '', method: 'GET' }),
+  create: name => ({ name: `${name}Create`, url: '', method: 'POST' }),
+  getOne: name => ({ name: `${name}GetOne`, url: ':id', method: 'GET' }),
+  updOne: name => ({ name: `${name}UpdOne`, url: ':id', method: 'UPDATE' }),
+  rmvOne: name => ({ name: `${name}RmvOne`, url: ':id', method: 'DELETE' })
 }
 
 const defaultRest = Object.keys(generateRestItem)
@@ -169,8 +170,8 @@ export const rest = (name, payload = defaultRest) =>
   Array.isArray(payload)
     ? payload.map(key => generateRestItem[key](name))
     : Object.keys(payload).map(key =>
-        Object.assign(generateRestItem[key](name), payload[key])
-      )
+      Object.assign(generateRestItem[key](name), payload[key])
+    )
 
 export const wrappedRest = (name, payload = defaultRest) => ({
   url: name,
