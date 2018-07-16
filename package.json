@@ -1,6 +1,6 @@
 {
   "name": "@apicase/services",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Powerful API layer based on `@apicase/core`",
   "main": "index.cjs.js",
   "module": "index.es.js",
