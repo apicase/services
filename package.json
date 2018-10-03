@@ -20,7 +20,7 @@
     "prepublish": "npm run build && npm run check"
   },
   "dependencies": {
-    "@apicase/core": "^0.15.0",
+    "@apicase/core": "^0.17.0",
     "delightful-bus": "^0.7.3",
     "nanoutils": "^0.0.x"
   },
