@@ -22,8 +22,8 @@ import { ApiService } from '@apicase/services'
 
 const SomeService = new ApiService({
   adapter: fetch,
-  url: '/api/posts'
-  method: 'GET'
+  url: '/api/posts',
+  method: 'GET',
 })
 
 // { "url": "/api/posts", "method": "GET", "query": { "userId": 1 } }
@@ -46,7 +46,7 @@ const api = new ApiTree([
       { name: 'createPost',    url: '',    method: 'POST'   },
       { name: 'getOnePost',    url: ':id', method: 'GET'    },
       { name: 'updateOnePost', url: ':id', method: 'PUT'    },
-      { name: 'removeOnePost', url: ':id', method: 'REMOVE' }
+      { name: 'removeOnePost', url: ':id', method: 'REMOVE' },
     ] },
     { url: 'profile', children: [...] }
   ] }
@@ -69,7 +69,7 @@ const api = new ApiTree(Root, [
     { name: 'createPost',    url: '',    method: 'POST'   },
     { name: 'getOnePost',    url: ':id', method: 'GET'    },
     { name: 'updateOnePost', url: ':id', method: 'PUT'    },
-    { name: 'removeOnePost', url: ':id', method: 'REMOVE' }
+    { name: 'removeOnePost', url: ':id', method: 'REMOVE' },
   ] },
   { url: 'profile', children: [...] }
 ])
@@ -89,11 +89,11 @@ Alternative way to avoid _string_ api (but there are no `children` option):
 import { ApiObjectTree } from '@apicase/services'
 
 const api = new ApiTree(BaseService, {
-  getAllPosts: { url: '' },
-  createPost:  { url: '',    method: 'POST' },
-  getOnePost:  { url: ':id', method: 'POST' },
-  updOnePost:  { url: ':id', method: 'PUT' },
-  rmvOnePost:  { url: ':id', method: 'DELETE' }
+  getAllPosts: { url: ''                      },
+  createPost:  { url: '',    method: 'POST'   },
+  getOnePost:  { url: ':id', method: 'POST'   },
+  updOnePost:  { url: ':id', method: 'PUT'    },
+  rmvOnePost:  { url: ':id', method: 'DELETE' },
 })
 
 api.getAllPosts.doRequest()
@@ -105,7 +105,7 @@ api.createPost.doRequest({ body })
 Helper to work with REST APIs just automatically generates urls, methods and names
 
 ```javascript
-import { ApiTree, rest } from "@apicase/services"
+import { ApiTree, rest } from '@apicase/services'
 
 /*
   If you are lucky - default structure doesn't need to write URL's
@@ -115,32 +115,32 @@ import { ApiTree, rest } from "@apicase/services"
   postsUpdOne: PUT    /:id
   postsRmvOne: DELETE /:id
 */
-const posts = rest("posts", ["getAll", "getOne", "create", "updOne", "rmvOne"])
+const posts = rest('posts', ['getAll', 'getOne', 'create', 'updOne', 'rmvOne'])
 
 /* Skip 2nd argument to get just all routes */
-const posts = rest("posts")
+const posts = rest('posts')
 
 /* Otherwise, still OK */
-const profile = rest("profile", {
-  getAll: { url: "we/have" },
-  create: { url: "custom/routes" },
-  getOne: { url: "no_refactoring/:id" },
-  updOne: { url: "since_2008/:id" },
-  rmvOne: { url: "legacy_shit" }
+const profile = rest('profile', {
+  getAll: { url: 'we/have'            },
+  create: { url: 'custom/routes'      },
+  getOne: { url: 'no_refactoring/:id' },
+  updOne: { url: 'since_2008/:id'     },
+  rmvOne: { url: 'legacy_shit'        },
 })
 
 new ApiTree(Root, [
-  { url: "posts", children: posts },
-  { url: "profile", children: profile }
+  { url: 'posts',   children: posts   },
+  { url: 'profile', children: profile },
 ])
 ```
 
 `wrappedRest` helper is similar to `rest` but also wraps it into url with name:
 
 ```javascript
-import { ApiTree, wrappedRest } from "@apicase/services"
+import { ApiTree, wrappedRest } from '@apicase/services'
 
-new ApiTree(Root, [wrappedRest("posts"), wrappedRest("profile")])
+new ApiTree(Root, [wrappedRest('posts'), wrappedRest('profile')])
 ```
 
 ## License
